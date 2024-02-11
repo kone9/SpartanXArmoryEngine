@@ -1,0 +1,16 @@
+#version 100
+
+uniform mat4 LWVP;
+uniform float texUnpack;
+
+attribute vec4 pos;
+varying vec2 texCoord;
+attribute vec2 tex;
+
+void main()
+{
+    vec4 spos = vec4(pos.xyz, 1.0);
+    gl_Position = LWVP * spos;
+    texCoord = tex * texUnpack;
+}
+

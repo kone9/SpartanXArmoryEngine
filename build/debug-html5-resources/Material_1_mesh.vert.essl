@@ -1,0 +1,25 @@
+#version 100
+
+uniform mat3 N;
+uniform float texUnpack;
+uniform mat4 WVP;
+
+attribute vec4 pos;
+varying vec3 wnormal;
+attribute vec2 nor;
+varying vec2 texCoord;
+attribute vec2 tex;
+attribute vec4 tang;
+varying mat3 TBN;
+
+void main()
+{
+    vec4 spos = vec4(pos.xyz, 1.0);
+    wnormal = normalize(N * vec3(nor, pos.w));
+    texCoord = tex * texUnpack;
+    vec3 tangent = normalize(N * tang.xyz);
+    vec3 bitangent = normalize(cross(wnormal, tangent));
+    TBN = mat3(vec3(tangent), vec3(bitangent), vec3(wnormal));
+    gl_Position = WVP * spos;
+}
+
